@@ -31,4 +31,4 @@ www.setnews.net,'^/News\.aspx$',http://www.setnews.net/News.aspx?NewsID={$NewsID
 www.youtube.com,'^/watch',https://www.youtube.com/watch?v={$v},www.youtube.com/watch?v={$v}
 www.youtube.com,'^/embed',https://www.youtube.com/watch?v={$v},www.youtube.com/watch?v={$v}
 www.stormmediagroup.com,'^/opencms',http://www.stormmediagroup.com/opencms/news/detail/{$uuid}/?uuid={$uuid},stormmediagroup/{$uuid}
-news.tvb.com,'^/local/([0-9A-Za-z]*)',http://news.tvb.com/local/{$1}/,news.tvb.com/local/{$1}
+news.tvb.com,'^/(local|world|finance|sports|weather)/([0-9A-Za-z]*)',http://news.tvb.com/{$1}/{$2}/,news.tvb.com/{$1}/{$2}
