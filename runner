@@ -1,0 +1,8 @@
+echo "Get List"
+php webdata/scripts/crawler-new.php
+echo "Crawl part 1"
+php webdata/scripts/crawler-part.php 0 3
+echo "Crawl part 2"
+php webdata/scripts/crawler-part.php 1 3
+echo "Crawl part 3"
+php webdata/scripts/crawler-part.php 2 3

@@ -129,3 +129,7 @@ print_r(URLNormalizer::query($url));
   normalized_url: 'http://www.udn.com/2013/10/31/NEWS/NATIONAL/NATS1/8263682.shtml',
   normalized_id: 'udn.com/news/8263682' }
 */
+
+echo "tvb"."\n";
+$url = 'http://news.tvb.com/local/5441cec46db28c0c31000001/';
+print_r(URLNormalizer::query($url));
