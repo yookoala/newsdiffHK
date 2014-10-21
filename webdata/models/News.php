@@ -69,7 +69,7 @@ class News extends Pix_Table
         $this->_columns['id'] = array('type' => 'int', 'auto_increment' => true);
         $this->_columns['url'] = array('type' => 'varchar', 'size' => 255);
         $this->_columns['normalized_id'] = array('type' => 'varchar', 'size' => 64);
-        $this->_columns['normalized_crc32'] = array('type' => 'int', 'unsigned' => true);
+        $this->_columns['normalized_crc32'] = array('type' => 'bigint');
         // 新聞來源
         $this->_columns['source'] = array('type' => 'tinyint');
         $this->_columns['created_at'] = array('type' => 'int');
@@ -78,7 +78,6 @@ class News extends Pix_Table
         $this->_columns['error_count'] = array('type' => 'tinyint');
 
         $this->_relations['infos'] = array('rel' => 'has_many', 'type' => 'NewsInfo', 'foreign_key' => 'news_id', 'delete' => true);
-
     }
 
     public function findByURL($url)
@@ -101,7 +100,6 @@ class News extends Pix_Table
         if (News::find_by_normalized_crc32(crc32($ret->normalized_id))) {
             return 0;
         }
-
         try {
             News::insert(array(
                 'url' => $url,
