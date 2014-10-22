@@ -20,7 +20,8 @@ $crawlers = array(
 //    14 => 'Crawler_FTV',
 //    15 => 'Crawler_SETNews',
 //    16 => 'Crawler_StormMediaGroup'
-    17 => 'Crawler_TVB'
+    17 => 'Crawler_TVB',
+    18 => 'Crawler_WenWeiPo',
 );
 
 $insert_count = 0;

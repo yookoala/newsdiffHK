@@ -135,6 +135,7 @@ class News extends Pix_Table
 //            15 => '三立',
 //            16 => '風傳媒',
             17 => 'TVB',
+            18 => '文匯',
         );
     }
 }

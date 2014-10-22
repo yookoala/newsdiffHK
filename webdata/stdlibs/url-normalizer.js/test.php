@@ -130,6 +130,10 @@ print_r(URLNormalizer::query($url));
   normalized_id: 'udn.com/news/8263682' }
 */
 
-echo "tvb"."\n";
+//echo "tvb"."\n";
 $url = 'http://news.tvb.com/local/5441cec46db28c0c31000001/';
 print_r(URLNormalizer::query($url));
+
+echo "WenweiPo\n";
+$url = "http://paper.wenweipo.com/2014/10/21/YO1410210001.htm";
+print_r(URLNormalizer::query($url)); 

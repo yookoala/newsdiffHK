@@ -31,27 +31,28 @@ class Crawler_TVB
 
     public static function parse($body)
     {
+        $ret = new StdClass;
+
         $doc = new DOMDocument('1.0', 'UTF-8');
         $body = str_replace('<head>', '<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">', $body);
 
         @$doc->loadHTML($body);
         
-        if (!$h4_dom = $doc->getElementsByTagName('h4')) {
-            return null;
+        if ($h4_dom = $doc->getElementsByTagName('h4')->item(0)) {
+            //Remove the time from the title
+            $timeSpan = $doc->getElementsByTagName('h4')->item(0)->getElementsByTagName('span')->item(0);
+            $doc->getElementsByTagName('h4')->item(0)->removeChild($timeSpan);
+            $ret->title = trim($h4_dom->nodeValue);
+        } else {
+            $ret->title = null;
         }
-        if (!$content_dom = $doc->getElementById('c1_afterplayer')) {
-            return null;
+
+        if ($content_dom = $doc->getElementById('c1_afterplayer')->getElementsByTagName('pre')->item(0)) {
+            $ret->body = trim($content_dom->nodeValue);
+        } else {
+            $ret->body = null;
         }
         
-        //Remove the time from the title
-        $timeSpan = $doc->getElementsByTagName('h4')->item(0)->getElementsByTagName('span')->item(0);
-        $doc->getElementsByTagName('h4')->item(0)->removeChild($timeSpan);
-
-        $ret = new StdClass;
-        $ret->title = trim($doc->getElementsByTagName('h4')->item(0)->nodeValue);
-
-        $ret->body = trim($doc->getElementById('c1_afterplayer')->getElementsByTagName('pre')->item(0)->nodeValue);
-
         return $ret;
     }
 }

@@ -111,9 +111,15 @@ class NewsRaw extends Pix_Table
         case 'www.stormmediagroup.com':
             $ret = Crawler_StormMediaGroup::parse($raw);
             break;
+
         case 'news.tvb.com':
             $ret = Crawler_TVB::parse($raw);
             break;
+
+        case 'paper.wenweipo.com':
+            $ret = Crawler_WenWeiPo::parse($raw);
+            break;
+
         default:
             throw new Exception('unknown host: ' . $url);
         }

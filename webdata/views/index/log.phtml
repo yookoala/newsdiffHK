@@ -15,7 +15,7 @@ ins {
 }
 </style>
 <script src="/static/jsdiff-master/diff.js"></script>
-<h2>網址: <?= $this->escape(urldecode($this->news->url)) ?></h2>
+<h2>網址: <a href="<?= $this->escape(urldecode($this->news->url)) ?>" target="_blank"><?= $this->escape(urldecode($this->news->url)) ?></a></h2>
 第一次抓取時間: <?= date('c', $this->news->created_at) ?><br>
 最早內容(<?= date('c', $first_info->time) ?>)<br>
 標題：<span class="title"><?= $this->escape($first_info->title) ?></span><br>
