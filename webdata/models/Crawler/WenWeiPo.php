@@ -6,27 +6,30 @@ class Crawler_WenWeiPo
     {
         $next = null;
         $url = "http://paper.wenweipo.com/003HK/";  //Hong Kong News
+        $content = "";
+        
+        //Crawling
         do {
-            $content = Crawler::getBody($url);
+            $content .= Crawler::getBody($url);
             
-            preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
-            //var_dump($matches);
-            $links = array_unique($matches[1]);
-            $insert = $update = 0;
-            foreach ($links as $link) {
-                $update ++;
-                //echo $link."\n";
-                $insert += News::addNews($link, 18);
-                if ($insert_limit <= $insert) {
-                    break;
-                }
-            }
             if ($next = preg_match_all('#<a href="([A-Za-z0-9.\/-]*)">下一頁<\/a>#', $content, $matches)) {
                 $url = "http://paper.wenweipo.com".$matches[1][0];    
             }
-
         } while ($next);
         
+        preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
+        //var_dump($matches);
+        $links = array_unique($matches[1]);
+        $insert = $update = 0;
+        foreach ($links as $link) {
+            $update ++;
+            //echo $link."\n";
+            $insert += News::addNews($link, 18);
+            if ($insert_limit <= $insert) {
+                break;
+            }
+        }
+
         return array($update, $insert);
     }
 
