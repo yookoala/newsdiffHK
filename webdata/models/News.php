@@ -101,6 +101,7 @@ class News extends Pix_Table
             return 0;
         }
         try {
+            //echo "insert";
             News::insert(array(
                 'url' => $url,
                 'normalized_id' => $ret->normalized_id,
@@ -110,6 +111,7 @@ class News extends Pix_Table
                 'last_fetch_at' => 0,
             ));
         } catch (Pix_Table_DuplicateException $e) {
+            echo "Duplication: \n".$e;
         }
 
         return 1;
