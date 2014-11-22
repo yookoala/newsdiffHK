@@ -47,10 +47,12 @@ class Crawler_TVB
             $ret->title = null;
         }
 
-        if ($content_dom = $doc->getElementById('c1_afterplayer')->getElementsByTagName('pre')->item(0)) {
-            $ret->body = trim($content_dom->nodeValue);
-        } else {
-            $ret->body = null;
+        if ($content_dom = $doc->getElementById('c1_afterplayer')) {
+            if ($content_dom = $content_dom->getElementsByTagName('pre')->item(0)) {
+                $ret->body = trim($content_dom->nodeValue);
+            } else {
+                $ret->body = null;
+            }
         }
         
         return $ret;
