@@ -250,7 +250,6 @@ class Crawler
             }
             $status_count[$news->source . '-' . intval($info['http_code'])] ++;
             try {
-                echo "\n{$url} Content:\n".$content."\n---end---\n";
                 self::updateContent($news, $content);
             } catch (Exception $e) {
                 error_log("處理 {$news->url} 錯誤: " . $e->getMessage());
