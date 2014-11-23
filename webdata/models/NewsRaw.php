@@ -46,7 +46,8 @@ class NewsRaw extends Pix_Table
             throw new Exception('unknown host: ' . $url);
         } else {
             if (!is_callable($callback)) {
-                var_dump($callback); exit;
+                throw new Exception('callback error:  ' . var_export($callback, TRUE) .
+                    ' is not callable (for '. $url . ')');
             }
             $ret = call_user_func($callback, $raw);
         }

@@ -177,4 +177,12 @@ NewsSourcesCfg::setAll(array(
             'paper.wenweipo.com' => 'parse',
         ),
     ),
+    19 => array(
+        'name' => '熱血時報',
+        'class' => 'Crawler_PassionTimes',
+        'parsers' => array(
+            'passiontimes.hk' => 'parse',
+            'www.passiontimes.hk' => 'parse',
+        ),
+    ),
 ));

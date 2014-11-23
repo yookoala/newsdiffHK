@@ -33,3 +33,5 @@ www.youtube.com,'^/embed',https://www.youtube.com/watch?v={$v},www.youtube.com/w
 www.stormmediagroup.com,'^/opencms',http://www.stormmediagroup.com/opencms/news/detail/{$uuid}/?uuid={$uuid},stormmediagroup/{$uuid}
 news.tvb.com,'^/(local|world|finance|sports|weather)/([0-9A-Za-z]*)',http://news.tvb.com/{$1}/{$2}/,news.tvb.com/{$1}/{$2}
 paper.wenweipo.com,'^([\S]*)',http://paper.wenweipo.com/{$1},paper.wenweipo.com/{$1}
+www.passiontimes.hk,'^/article/([\d\-]+)/(\d+)$',http://www.passiontimes.hk{$0},www.passiontimes.hk{$0}
+passiontimes.hk,'^/article/([\d\-]+)/(\d+)$',http://www.passiontimes.hk{$0},www.passiontimes.hk{$0}
