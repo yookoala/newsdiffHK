@@ -1,0 +1,6 @@
+[submodule "webdata/static/url-normalizer.js"]
+	path = webdata/static/url-normalizer.js
+	url = git@github.com:yookoala/url-normalizer.js.git
+[submodule "webdata/stdlibs/url-normalizer.js"]
+	path = webdata/stdlibs/url-normalizer.js
+	url = git@github.com:yookoala/url-normalizer.js.git

@@ -3,6 +3,10 @@
 include(__DIR__ . '/../init.inc.php');
 Pix_Table::$_save_memory = true;
 
+require_once(__DIR__ . '/../stdlibs/url-normalizer.js/URLNormalizer.php');
+URLNormalizer::setCSVMapPath(
+    __DIR__ . '/../map.csv');
+
 $crawlers = array(
 //    1 => 'Crawler_Appledaily',
 //    2 => 'Crawler_Chinatimes',
