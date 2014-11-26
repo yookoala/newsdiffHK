@@ -1,6 +1,5 @@
 NewsDiff
 ========
-
 找出新聞修改的記錄
 
 成果 http://newsdiff.g0v.ronny.tw/
