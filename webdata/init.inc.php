@@ -2,22 +2,25 @@
 
 error_reporting(E_ALL ^ E_STRICT ^ E_NOTICE);
 
-include(__DIR__ . '/stdlibs/pixframework/Pix/Loader.php');
+// setup libraries and autoload
+require_once(__DIR__ . '/stdlibs/diff_match_patch-php-master/diff_match_patch.php');
+require_once(__DIR__ . '/stdlibs/pixframework/Pix/Loader.php');
 set_include_path(__DIR__ . '/stdlibs/pixframework/'
     . PATH_SEPARATOR . __DIR__ . '/models'
     . PATH_SEPARATOR . __DIR__ . '/stdlibs/Dropbox-master/'
 );
-require_once(__DIR__ . '/stdlibs/diff_match_patch-php-master/diff_match_patch.php');
-
 Pix_Loader::registerAutoLoad();
 
-if (file_exists(__DIR__ . '/config.php')) {
-    include(__DIR__ . '/config.php');
-}
 // TODO: 之後要搭配 geoip
 date_default_timezone_set('Asia/Taipei');
 mb_internal_encoding("UTF-8");
 
+// setup with config file
+if (file_exists(__DIR__ . '/config.php')) {
+    include(__DIR__ . '/config.php');
+}
+
+// get database URL from environment
 if (!getenv('DATABASE_URL')) {
     die('need DATABASE_URL');
 }
@@ -25,6 +28,7 @@ if (!preg_match('#mysql://([^:]*):([^@]*)@([^/]*)/(.*)#', strval(getenv('DATABAS
     die('mysql only');
 }
 
+// initialize database
 $db = new StdClass;
 $db->host = $matches[3];
 $db->username = $matches[1];
