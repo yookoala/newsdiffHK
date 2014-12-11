@@ -2,7 +2,7 @@
 
 class Crawler_Chinatimes
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://www.chinatimes.com');
         $content .= Crawler::getBody('http://www.chinatimes.com/newspapers/'); // 日報精選
@@ -15,6 +15,12 @@ class Crawler_Chinatimes
         for ($i = 1; $i < 10; $i ++) {
             $content .= Crawler::getBody('http://www.chinatimes.com/realtimenews/?page=' . $i);
         }
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
 
         preg_match_all('#/(newspapers|realtimenews)/([^"\#<]*-)?\d+-\d+["<]?#', $content, $matches);
         $insert = $update = 0;

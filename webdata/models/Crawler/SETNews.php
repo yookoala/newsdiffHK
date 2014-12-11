@@ -2,9 +2,14 @@
 
 class Crawler_SETNews
 {
+    public static function crawlIndex()
+    {
+        return Crawler::getBody('http://www.setnews.net/');
+    }
+
     public static function crawl($insert_limit)
     {
-        $content = Crawler::getBody('http://www.setnews.net/');
+        $content = self::crawlIndex();
         preg_match_all('#NewsID=[0-9]*#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

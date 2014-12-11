@@ -2,12 +2,17 @@
 
 class Crawler_Ettoday
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         // http://www.ettoday.net/news/20130813/255848.htm
         $content = Crawler::getBody('http://www.ettoday.net');
         $content .= Crawler::getBody('http://feeds.feedburner.com/ettoday/realtime');
+        return $content;
+    }
 
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         preg_match_all('#/news/\d+/\d+\.htm#', $content, $matches);
         $insert = $update = 0;
         foreach ($matches[0] as $link) {

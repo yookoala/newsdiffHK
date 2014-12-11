@@ -2,9 +2,14 @@
 
 class Crawler_FTV
 {
+    public static function crawlIndex()
+    {
+        return Crawler::getBody('http://news.ftv.com.tw/');
+    }
+
     public static function crawl($insert_limit)
     {
-        $content = Crawler::getBody('http://news.ftv.com.tw/');
+        $content = self::crawlIndex();
         preg_match_all('#sno=[0-9A-Z]*#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

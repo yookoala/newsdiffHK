@@ -2,10 +2,16 @@
 
 class Crawler_TVBS
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://news.tvbs.com.tw/todaynews');
         $content .= Crawler::getBody('http://news.tvbs.com.tw/today_latest_news');
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         preg_match_all('#/entry/[0-9]*#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

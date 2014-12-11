@@ -2,7 +2,8 @@
 
 class Crawler_Appledaily
 {
-    public static function crawl($insert_limit)
+
+    public static function crawlIndex()
     {
         $urls = array(
             'http://www.appledaily.com.tw',
@@ -29,6 +30,12 @@ class Crawler_Appledaily
             }
         }
 
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
 
         preg_match_all('#/(appledaily|realtimenews)/article/[^/]*/\d+/[^"]+#', $content, $matches);
         $insert = $update = 0;

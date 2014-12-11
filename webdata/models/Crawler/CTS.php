@@ -2,7 +2,7 @@
 
 class Crawler_CTS
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://news.cts.com.tw/real');
         $content = Crawler::getBody('http://news.cts.com.tw/real/index2.html');
@@ -10,6 +10,13 @@ class Crawler_CTS
         $content = Crawler::getBody('http://news.cts.com.tw/real/index4.html');
         $content = Crawler::getBody('http://news.cts.com.tw/real/index5.html');
         $content = Crawler::getBody('http://news.cts.com.tw/real/index6.html');
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
+
         preg_match_all('#[a-z]*/[a-z]*/[0-9]*/[0-9]*\.html#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

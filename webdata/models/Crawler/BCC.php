@@ -2,9 +2,15 @@
 
 class Crawler_BCC
 {
+    public static function crawlIndex()
+    {
+        return Crawler::getBody('http://www.bcc.com.tw/news');
+    }
+
     public static function crawl($insert_limit)
     {
-        $content = Crawler::getBody('http://www.bcc.com.tw/news');
+        $content = self::crawlIndex();
+
         preg_match_all('#newsView\.[0-9A-Z-z]*#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

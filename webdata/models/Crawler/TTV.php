@@ -2,9 +2,14 @@
 
 class Crawler_TTV
 {
+    public static function crawlIndex()
+    {
+        return Crawler::getBody('http://www.ttv.com.tw/news/');
+    }
+
     public static function crawl($insert_limit)
     {
-        $content = Crawler::getBody('http://www.ttv.com.tw/news/');
+        $content = self::crawlIndex();
         preg_match_all('#/[0-9]+/[0-9]+/[0-9]+/[0-9]+[0-9A-Z]\.htm#', $content, $matches);
         $links = array_unique($matches[0]);
         $insert = $update = 0;

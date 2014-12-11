@@ -2,7 +2,7 @@
 
 class Crawler_Libertytimes
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         // http://www.libertytimes.com.tw/2013/new/aug/13/today-t3.htm
         // http://iservice.libertytimes.com.tw/liveNews/news.php?no=852779&type=%E7%A4%BE%E6%9C%83
@@ -22,7 +22,12 @@ class Crawler_Libertytimes
             $url = 'http://news.ltn.com.tw/section/' . $category;
             $content .= Crawler::getBody($url, 0.5, false);
         }
+        return $content;
+    }
 
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         preg_match_all('#/news/[a-z]*/[a-z]*/[0-9]*#', $content, $matches);
         $insert = $update = 0;
         foreach ($matches[0] as $link) {

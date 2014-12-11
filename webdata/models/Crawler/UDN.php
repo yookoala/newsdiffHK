@@ -2,21 +2,27 @@
 
 class Crawler_UDN
 {
+    public static function crawlIndex()
+    {
+        $indexJs = Crawler::getBody('http://udn.com/NEWS/hierArrays.js');
+        preg_match_all('#http://udn.com/NEWS/[^\.]*\.js#', $indexJs, $matches);
+        $content = '';
+        foreach ($matches[0] as $jslink) {
+            $content .= Crawler::getBody($jslink);
+        }
+        return $content;
+    }
+
     public static function crawl($insert_limit)
     {
-        $content = Crawler::getBody('http://udn.com/NEWS/hierArrays.js');
-        preg_match_all('#http://udn.com/NEWS/[^\.]*\.js#', $content, $matches);
-        $jslinks = $matches[0];
+        $content = self::crawlIndex();
         $insert = $update = 0;
-        foreach ($jslinks as $jslink) {
-            $content = Crawler::getBody($jslink);
-            preg_match_all('#http://udn.com/NEWS/[^/"\']*/[^/"\']*/[0-9]*\.shtml#', $content, $matches);
-            foreach ($matches[0] as $link) {
-                $update ++;
-                $insert += News::addNews($link, 8);
-                if ($insert_limit <= $insert) {
-                    break;
-                }
+        preg_match_all('#http://udn.com/NEWS/[^/"\']*/[^/"\']*/[0-9]*\.shtml#', $content, $matches);
+        foreach ($matches[0] as $link) {
+            $update ++;
+            $insert += News::addNews($link, 8);
+            if ($insert_limit <= $insert) {
+                break;
             }
         }
         return array($update, $insert);

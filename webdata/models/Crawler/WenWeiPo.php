@@ -2,7 +2,7 @@
 
 class Crawler_WenWeiPo
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $next = null;
         $url = "http://paper.wenweipo.com/003HK/";  //Hong Kong News
@@ -16,7 +16,14 @@ class Crawler_WenWeiPo
                 $url = "http://paper.wenweipo.com".$matches[1][0];    
             }
         } while ($next);
-        
+
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
+
         preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
         //var_dump($matches);
         $links = array_unique($matches[1]);

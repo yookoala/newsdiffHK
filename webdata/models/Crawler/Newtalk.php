@@ -2,14 +2,19 @@
 
 class Crawler_Newtalk
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://newtalk.tw');
         $content .= Crawler::getBody('http://newtalk.tw/rss_news.php');
         for ($i = 1; $i >= 14; $i ++) {
             $content .= Crawler::getBody('http://newtalk.tw/rss_news.php?oid=' . $i);
         }
+        return $content;
+    }
 
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         preg_match_all('#http://newtalk.tw\/news/\d+/\d+/\d+/\d+\.html#', $content, $matches);
         $insert = $update = 0;
         foreach ($matches[0] as $link) {

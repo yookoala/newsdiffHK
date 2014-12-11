@@ -2,7 +2,7 @@
 
 class Crawler_StormMediaGroup
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $urls = array();
         for ($i=1; $i<=4; $i++) {
@@ -18,6 +18,12 @@ class Crawler_StormMediaGroup
             }
         }
 
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         preg_match_all('#href="(/opencms/news/detail/.*/?uuid=[0-9a-zA-Z\-]*)#', $content, $matches);
         $insert = $update = 0;
         foreach ($matches[1] as $link) {

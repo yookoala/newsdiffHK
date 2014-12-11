@@ -2,7 +2,7 @@
 
 class Crawler_CNA
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         // http://www.cna.com.tw/News/aCN/201308130087-1.aspx
         // http://www.cna.com.tw/Topic/Popular/3907-1/201308130021-1.aspx
@@ -10,6 +10,12 @@ class Crawler_CNA
         for ($i = 1; $i < 10; $i ++) {
             $content .= Crawler::getBody('http://www.cna.com.tw/list/aall-' . $i . '.aspx');
         }
+        return $content;
+    }
+
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
 
         preg_match_all('#/(News|Topic/Popular)/[^/]*/\d+-\d+\.aspx#i', $content, $matches);
         $insert = $update = 0;

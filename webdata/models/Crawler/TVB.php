@@ -2,7 +2,7 @@
 
 class Crawler_TVB
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://news.tvb.com/list/focus'); //頭版
         $content .= Crawler::getBody('http://news.tvb.com/list/local/'); //港聞
@@ -10,7 +10,12 @@ class Crawler_TVB
         $content .= Crawler::getBody('http://news.tvb.com/list/finance/'); //財經
         $content .= Crawler::getBody('http://news.tvb.com/list/sports/'); //體育
         $content .= Crawler::getBody('http://news.tvb.com/list/weather/'); //天氣
+        return $content;
+    }
 
+    public static function crawl($insert_limit)
+    {
+        $content = self::crawlIndex();
         //echo $content;
         preg_match_all('#href[ ]?=[ ]?"(\/(local|world|finance|sports|weather)\/[0-9A-Za-z]*)\/#', $content, $matches);
         //var_dump($matches);
