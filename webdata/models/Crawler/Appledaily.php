@@ -33,14 +33,20 @@ class Crawler_Appledaily
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#/(appledaily|realtimenews)/article/[^/]*/\d+/[^"]+#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.appledaily.com.tw'.$link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#/(appledaily|realtimenews)/article/[^/]*/\d+/[^"]+#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[0] as $link) {
-            $url = Crawler::standardURL('http://www.appledaily.com.tw' . $link);
+        foreach ($links as $link) {
+            $url = Crawler::standardURL($link);
             $update ++;
             $insert += News::addNews($url, 1);
             if ($insert_limit <= $insert) {
@@ -87,6 +93,5 @@ class Crawler_Appledaily
         }
         return $ret;
     }
-
 
 }

@@ -20,13 +20,17 @@ class Crawler_WenWeiPo
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
+        //var_dump($matches);
+        return array_unique($matches[1]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
-        //var_dump($matches);
-        $links = array_unique($matches[1]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;

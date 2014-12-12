@@ -7,15 +7,20 @@ class Crawler_FTV
         return Crawler::getBody('http://news.ftv.com.tw/');
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#sno=[0-9A-Z]*#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://news.ftv.com.tw/NewsContent.aspx?' . $link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#sno=[0-9A-Z]*#', $content, $matches);
-        $links = array_unique($matches[0]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://news.ftv.com.tw/NewsContent.aspx?' . $link;
             $insert += News::addNews($link, 14);
             if ($insert_limit <= $insert) {
                 break;

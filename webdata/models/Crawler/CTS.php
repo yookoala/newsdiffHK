@@ -13,16 +13,20 @@ class Crawler_CTS
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#[a-z]*/[a-z]*/[0-9]*/[0-9]*\.html#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://news.cts.com.tw/' . $link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#[a-z]*/[a-z]*/[0-9]*/[0-9]*\.html#', $content, $matches);
-        $links = array_unique($matches[0]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://news.cts.com.tw/' . $link;
             $insert += News::addNews($link, 13);
             if ($insert_limit <= $insert) {
                 break;

@@ -9,12 +9,18 @@ class Crawler_Nownews
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#http://www\.nownews\.com\/n/\d\d\d\d/\d\d/\d\d/\d+#', $content, $matches);
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#http://www\.nownews\.com\/n/\d\d\d\d/\d\d/\d\d/\d+#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[0] as $link) {
+        foreach ($links as $link) {
             $link = Crawler::standardURL($link);
             $update ++;
             $insert += News::addNews($link, 7);

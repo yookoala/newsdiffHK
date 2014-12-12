@@ -13,16 +13,21 @@ class Crawler_CNA
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#/(News|Topic/Popular)/[^/]*/\d+-\d+\.aspx#i', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.cna.com.tw' . $link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#/(News|Topic/Popular)/[^/]*/\d+-\d+\.aspx#i', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[0] as $link) {
+        foreach ($links as $link) {
             $update ++;
-            $url = Crawler::standardURL('http://www.cna.com.tw' . $link);
-            $insert += News::addNews($url, 3);
+            $insert += News::addNews($link, 3);
             if ($insert_limit <= $insert) {
                 break;
             }

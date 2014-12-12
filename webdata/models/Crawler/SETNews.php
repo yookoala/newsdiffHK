@@ -7,15 +7,20 @@ class Crawler_SETNews
         return Crawler::getBody('http://www.setnews.net/');
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#NewsID=[0-9]*#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.setnews.net/News.aspx?' . $link; });
+       return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#NewsID=[0-9]*#', $content, $matches);
-        $links = array_unique($matches[0]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://www.setnews.net/News.aspx?' . $link;
             $insert += News::addNews($link, 15);
             if ($insert_limit <= $insert) {
                 break;

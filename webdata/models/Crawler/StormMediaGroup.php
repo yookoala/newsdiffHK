@@ -21,13 +21,20 @@ class Crawler_StormMediaGroup
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#href="(/opencms/news/detail/.*/?uuid=[0-9a-zA-Z\-]*)#', $content, $matches);
+        array_walk($matches[1], function(&$link) { $link = 'http://www.stormmediagroup.com' . $link; });
+       return array_unique($matches[1]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#href="(/opencms/news/detail/.*/?uuid=[0-9a-zA-Z\-]*)#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[1] as $link) {
-            $url = Crawler::standardURL("http://www.stormmediagroup.com{$link}");
+        foreach ($links as $link) {
+            $url = Crawler::standardURL($link);
             $update ++;
             $insert += News::addNews($url, 16);
             if ($insert_limit <= $insert) {

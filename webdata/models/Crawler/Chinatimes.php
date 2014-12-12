@@ -18,15 +18,21 @@ class Crawler_Chinatimes
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#/(newspapers|realtimenews)/([^"\#<]*-)?\d+-\d+["<]?#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.chinatimes.com' . rtrim($link, '"<'); });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#/(newspapers|realtimenews)/([^"\#<]*-)?\d+-\d+["<]?#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach (array_unique($matches[0]) as $link) {
+        foreach ($links as $link) {
             $update ++;
-            $url = Crawler::standardURL('http://www.chinatimes.com' . rtrim($link, '"<'));
+            $url = Crawler::standardURL($link);
             $insert += News::addNews($url, 2);
             if ($insert_limit <= $insert) {
                 break;

@@ -25,14 +25,21 @@ class Crawler_Libertytimes
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#/news/[a-z]*/[a-z]*/[0-9]*#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://news.ltn.com.tw' .  $link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#/news/[a-z]*/[a-z]*/[0-9]*#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[0] as $link) {
+        foreach ($links as $link) {
             $update = 0;
-            $url = Crawler::standardURL('http://news.ltn.com.tw' . $link);
+            $url = Crawler::standardURL($link);
             $update ++;
             $insert += News::addNews($url, 5);
             if ($insert_limit <= $insert) {

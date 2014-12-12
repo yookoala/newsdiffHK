@@ -13,14 +13,21 @@ class Crawler_UDN
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#http://udn.com/NEWS/[^/"\']*/[^/"\']*/[0-9]*\.shtml#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://news.tvbs.com.tw' . $link; });
+       return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        preg_match_all('#http://udn.com/NEWS/[^/"\']*/[^/"\']*/[0-9]*\.shtml#', $content, $matches);
-        foreach ($matches[0] as $link) {
+        foreach ($links as $link) {
             $update ++;
-            $insert += News::addNews($link, 8);
+            $insert += News::addNews($link, 9);
             if ($insert_limit <= $insert) {
                 break;
             }

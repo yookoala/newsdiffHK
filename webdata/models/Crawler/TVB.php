@@ -13,17 +13,20 @@ class Crawler_TVB
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#href[ ]?=[ ]?"(\/(local|world|finance|sports|weather)\/[0-9A-Za-z]*)\/#', $content, $matches);
+        array_walk($matches[1], function(&$link) { $link = 'http://news.tvb.com' . $link; });
+       return array_unique($matches[1]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        //echo $content;
-        preg_match_all('#href[ ]?=[ ]?"(\/(local|world|finance|sports|weather)\/[0-9A-Za-z]*)\/#', $content, $matches);
-        //var_dump($matches);
-        $links = array_unique($matches[1]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://news.tvb.com' . $link;
             //echo $link."\n";
             $insert += News::addNews($link, 17);
             if ($insert_limit <= $insert) {

@@ -7,15 +7,20 @@ class Crawler_TTV
         return Crawler::getBody('http://www.ttv.com.tw/news/');
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#/[0-9]+/[0-9]+/[0-9]+/[0-9]+[0-9A-Z]\.htm#', $content, $matches);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.ttv.com.tw' . $link; });
+       return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#/[0-9]+/[0-9]+/[0-9]+/[0-9]+[0-9A-Z]\.htm#', $content, $matches);
-        $links = array_unique($matches[0]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://www.ttv.com.tw' . $link;
             $insert += News::addNews($link, 12);
             if ($insert_limit <= $insert) {
                 break;

@@ -7,16 +7,21 @@ class Crawler_BCC
         return Crawler::getBody('http://www.bcc.com.tw/news');
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#newsView\.[0-9A-Z-z]*#', $content, $matches);
+        $links = array_unique($matches[0]);
+        array_walk($matches[0], function(&$link) { $link = 'http://www.bcc.com.tw/'.$link; });
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-
-        preg_match_all('#newsView\.[0-9A-Z-z]*#', $content, $matches);
-        $links = array_unique($matches[0]);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
         foreach ($links as $link) {
             $update ++;
-            $link = 'http://www.bcc.com.tw/' . $link;
             $insert += News::addNews($link, 10);
             if ($insert_limit <= $insert) {
                 break;

@@ -12,12 +12,18 @@ class Crawler_Newtalk
         return $content;
     }
 
+    public static function findLinksIn($content)
+    {
+        preg_match_all('#http://newtalk.tw\/news/\d+/\d+/\d+/\d+\.html#', $content, $matches);
+        return array_unique($matches[0]);
+    }
+
     public static function crawl($insert_limit)
     {
         $content = self::crawlIndex();
-        preg_match_all('#http://newtalk.tw\/news/\d+/\d+/\d+/\d+\.html#', $content, $matches);
+        $links = self::findLinksIn($content);
         $insert = $update = 0;
-        foreach ($matches[0] as $link) {
+        foreach ($links as $link) {
             $update ++;
             $link = Crawler::standardURL($link);
             $insert += News::addNews($link, 6);
