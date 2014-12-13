@@ -16,6 +16,8 @@ Pix_Loader::registerAutoLoad();
 date_default_timezone_set('Asia/Taipei');
 mb_internal_encoding("UTF-8");
 
+URLNormalizer::setCSVMapPath(__DIR__ . '/map.csv');
+
 // setup with config file
 if (file_exists(__DIR__ . '/config.php')) {
     include(__DIR__ . '/config.php');
