@@ -8,6 +8,7 @@ require_once(__DIR__ . '/stdlibs/pixframework/Pix/Loader.php');
 set_include_path(__DIR__ . '/stdlibs/pixframework/'
     . PATH_SEPARATOR . __DIR__ . '/models'
     . PATH_SEPARATOR . __DIR__ . '/stdlibs/Dropbox-master/'
+    . PATH_SEPARATOR . __DIR__ . '/stdlibs'
 );
 Pix_Loader::registerAutoLoad();
 
