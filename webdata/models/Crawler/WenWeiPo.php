@@ -1,6 +1,6 @@
 <?php
 
-class Crawler_WenWeiPo
+class Crawler_WenWeiPo implements Crawler_Common
 {
     public static function crawlIndex()
     {
@@ -25,23 +25,6 @@ class Crawler_WenWeiPo
         preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
         //var_dump($matches);
         return array_unique($matches[1]);
-    }
-
-    public static function crawl($insert_limit)
-    {
-        $content = self::crawlIndex();
-        $links = self::findLinksIn($content);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            //echo $link."\n";
-            $insert += News::addNews($link, 18);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-
-        return array($update, $insert);
     }
 
     public static function parse($body)

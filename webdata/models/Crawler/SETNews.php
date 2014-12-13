@@ -1,6 +1,6 @@
 <?php
 
-class Crawler_SETNews
+class Crawler_SETNews implements Crawler_Common
 {
     public static function crawlIndex()
     {
@@ -12,21 +12,6 @@ class Crawler_SETNews
         preg_match_all('#NewsID=[0-9]*#', $content, $matches);
         array_walk($matches[0], function(&$link) { $link = 'http://www.setnews.net/News.aspx?' . $link; });
        return array_unique($matches[0]);
-    }
-
-    public static function crawl($insert_limit)
-    {
-        $content = self::crawlIndex();
-        $links = self::findLinksIn($content);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            $insert += News::addNews($link, 15);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-        return array($update, $insert);
     }
 
     public static function parse($body)

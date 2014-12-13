@@ -1,6 +1,6 @@
 <?php
 
-class Crawler_TVB
+class Crawler_TVB implements Crawler_Common
 {
     public static function crawlIndex()
     {
@@ -18,23 +18,6 @@ class Crawler_TVB
         preg_match_all('#href[ ]?=[ ]?"(\/(local|world|finance|sports|weather)\/[0-9A-Za-z]*)\/#', $content, $matches);
         array_walk($matches[1], function(&$link) { $link = 'http://news.tvb.com' . $link; });
        return array_unique($matches[1]);
-    }
-
-    public static function crawl($insert_limit)
-    {
-        $content = self::crawlIndex();
-        $links = self::findLinksIn($content);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            //echo $link."\n";
-            $insert += News::addNews($link, 17);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-
-        return array($update, $insert);
     }
 
     public static function parse($body)

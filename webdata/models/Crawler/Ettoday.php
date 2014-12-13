@@ -1,6 +1,6 @@
 <?php
 
-class Crawler_Ettoday
+class Crawler_Ettoday implements Crawler_Common
 {
     public static function crawlIndex()
     {
@@ -15,22 +15,6 @@ class Crawler_Ettoday
         preg_match_all('#/news/\d+/\d+\.htm#', $content, $matches);
         array_walk($matches[0], function(&$link) { $link = 'http://www.ettoday.net' . $link; });
         return array_unique($matches[0]);
-    }
-
-    public static function crawl($insert_limit)
-    {
-        $content = self::crawlIndex();
-        $links = self::findLinksIn($content);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            $url = Crawler::standardURL($link);
-            $insert += News::addNews($url, 4);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-        return array($update, $insert);
     }
 
     public static function parse($body)

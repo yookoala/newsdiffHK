@@ -5,6 +5,7 @@ class NewsSourcesCfg {
     static $parser_callbacks = array();
 
     static function setAll($cfg) {
+        self::validateAll($cfg);
         self::$cfg = $cfg;
         self::$parser_callbacks = array(); // reset cache
     }
@@ -14,6 +15,16 @@ class NewsSourcesCfg {
     static function get($id) {
         if (!isset(self::$cfg[$id])) return NULL;
         return self::$cfg[$id];
+    }
+
+    static function validateAll($cfg) {
+        foreach ($cfg as $id => $def) {
+            // class must implement 'Crawler_Common' interface
+            if (!is_subclass_of($def['class'], 'Crawler_Common')) {
+                throw new Exception('Parameter "class"  '.$def['class'].
+                    ' (news id='.$id.') is not implementing interface Crawler_Common');
+            }
+        }
     }
 
     /**

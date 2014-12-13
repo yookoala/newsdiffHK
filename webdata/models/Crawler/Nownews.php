@@ -1,6 +1,6 @@
 <?php
 
-class Crawler_Nownews
+class Crawler_Nownews implements Crawler_Common
 {
     public static function crawlIndex()
     {
@@ -15,21 +15,6 @@ class Crawler_Nownews
         return array_unique($matches[0]);
     }
 
-    public static function crawl($insert_limit)
-    {
-        $content = self::crawlIndex();
-        $links = self::findLinksIn($content);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $link = Crawler::standardURL($link);
-            $update ++;
-            $insert += News::addNews($link, 7);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-        return array($update, $insert);
-    }
     public static function parse($body)
     {
         $body = mb_convert_encoding($body, 'HTML-ENTITIES', "UTF-8");
