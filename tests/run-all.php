@@ -1,5 +1,8 @@
 <?php
 
+// declare unit test mode on to skip mysql connection
+define('UNITTEST_MODE', true);
+
 // Bootstrap
 require_once __DIR__ . '/../webdata/init.inc.php';
 require_once 'simpletest/autorun.php'; // from include path
