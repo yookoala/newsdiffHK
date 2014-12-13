@@ -45,11 +45,9 @@ class NewsRaw extends Pix_Table
         if (($callback = NewsSourcesCfg::getHostParser($host)) === FALSE) {
             throw new Exception('unknown host: ' . $url);
         } else {
-                var_dump($host);
             if (!is_callable($callback)) {
                 var_dump($callback); exit;
             }
-            echo "callback is callable\n";
             $ret = call_user_func($callback, $raw);
         }
 
