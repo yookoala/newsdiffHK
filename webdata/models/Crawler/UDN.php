@@ -16,7 +16,6 @@ class Crawler_UDN
     public static function findLinksIn($content)
     {
         preg_match_all('#http://udn.com/NEWS/[^/"\']*/[^/"\']*/[0-9]*\.shtml#', $content, $matches);
-        array_walk($matches[0], function(&$link) { $link = 'http://news.tvbs.com.tw' . $link; });
        return array_unique($matches[0]);
     }
 
