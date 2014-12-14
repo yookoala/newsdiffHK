@@ -53,7 +53,7 @@ class Crawler_Libertytimes implements Crawler_Common
         }
 
         $doc = new DOMDocument('1.0', 'UTF-8');
-        @$doc->loadHTML($body);
+        @$doc->loadHTML(mb_convert_encoding($body, 'HTML-ENTITIES', 'UTF-8'));
         $ret = new StdClass;
         if (!$doc->getElementById('newsti')){
             // 新版
