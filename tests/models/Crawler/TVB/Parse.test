@@ -1,0 +1,29 @@
+<?php
+
+class TestCase_Crawler_TVB_Parse_5484d9766db28c6e54000000 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_TVB::parse (5484d9766db28c6e54000000.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/5484d9766db28c6e54000000.html');
+        $result = Crawler_TVB::parse($content);
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/5484d9766db28c6e54000000.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}

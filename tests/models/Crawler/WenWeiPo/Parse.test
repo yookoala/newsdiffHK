@@ -1,0 +1,57 @@
+<?php
+
+class TestCase_Crawler_WenWeiPo_Parse_AZ1404020003 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_WenWeiPo::parse (AZ1404020003.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/AZ1404020003.html');
+        $result = Crawler_WenWeiPo::parse($content);
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/AZ1404020003.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
+
+class TestCase_Crawler_WenWeiPo_Parse_HP1007200001 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_WenWeiPo::parse (HP1007200001.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/HP1007200001.html');
+        $result = Crawler_WenWeiPo::parse($content);
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/HP1007200001.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}

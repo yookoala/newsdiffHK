@@ -1,0 +1,21 @@
+<?php
+
+
+class TestCase_Crawler_PassionTimes_Crawl extends UnitTestCase
+{
+
+    function TestCase_Crawler_PassionTimes()
+    {
+        $this->label = 'Crawler_PassionTimes test (19750.html)';
+    }
+
+    function testCrawlLinksIn()
+    {
+        $body = file_get_contents(__DIR__ . '/data/listing.html');
+        $links = array_values(Crawler_PassionTimes::findLinksIn($body));
+        sort($links);
+        $expected_links = json_decode(file_get_contents(__DIR__ . '/data/listing.json'), TRUE);
+        $this->assertIdentical($links, $expected_links, 'Crawling links');
+    }
+
+}

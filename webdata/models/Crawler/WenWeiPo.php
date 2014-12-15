@@ -1,8 +1,8 @@
 <?php
 
-class Crawler_WenWeiPo
+class Crawler_WenWeiPo implements Crawler_Common
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $next = null;
         $url = "http://paper.wenweipo.com/003HK/";  //Hong Kong News
@@ -16,21 +16,15 @@ class Crawler_WenWeiPo
                 $url = "http://paper.wenweipo.com".$matches[1][0];    
             }
         } while ($next);
-        
+
+        return $content;
+    }
+
+    public static function findLinksIn($content)
+    {
         preg_match_all('#(http:\/\/paper.wenweipo.com\/[0-9\/A-Za-z.]*)" target="_blank#', $content, $matches);
         //var_dump($matches);
-        $links = array_unique($matches[1]);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            //echo $link."\n";
-            $insert += News::addNews($link, 18);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-
-        return array($update, $insert);
+        return array_unique($matches[1]);
     }
 
     public static function parse($body)

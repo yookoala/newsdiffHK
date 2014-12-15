@@ -1,8 +1,8 @@
 <?php
 
-class Crawler_TVB
+class Crawler_TVB implements Crawler_Common
 {
-    public static function crawl($insert_limit)
+    public static function crawlIndex()
     {
         $content = Crawler::getBody('http://news.tvb.com/list/focus'); //頭版
         $content .= Crawler::getBody('http://news.tvb.com/list/local/'); //港聞
@@ -10,23 +10,14 @@ class Crawler_TVB
         $content .= Crawler::getBody('http://news.tvb.com/list/finance/'); //財經
         $content .= Crawler::getBody('http://news.tvb.com/list/sports/'); //體育
         $content .= Crawler::getBody('http://news.tvb.com/list/weather/'); //天氣
+        return $content;
+    }
 
-        //echo $content;
+    public static function findLinksIn($content)
+    {
         preg_match_all('#href[ ]?=[ ]?"(\/(local|world|finance|sports|weather)\/[0-9A-Za-z]*)\/#', $content, $matches);
-        //var_dump($matches);
-        $links = array_unique($matches[1]);
-        $insert = $update = 0;
-        foreach ($links as $link) {
-            $update ++;
-            $link = 'http://news.tvb.com' . $link;
-            //echo $link."\n";
-            $insert += News::addNews($link, 17);
-            if ($insert_limit <= $insert) {
-                break;
-            }
-        }
-
-        return array($update, $insert);
+        array_walk($matches[1], function(&$link) { $link = 'http://news.tvb.com' . $link; });
+       return array_unique($matches[1]);
     }
 
     public static function parse($body)
