@@ -74,7 +74,7 @@ class Crawler
         return $content;
     }
 
-    public static function updateContent($news, $content)
+    public static function updateContent($news, $content, $header)
     {
         $now = time();
 
@@ -94,6 +94,7 @@ class Crawler
             NewsRaw::insertNew(array(
                 'news_id' => $news->id,
                 'time' => $now,
+                'header' => $header,
                 'raw' => $content,
             ));
 
@@ -191,6 +192,7 @@ class Crawler
             curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36');
             curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             curl_setopt($curl, CURLOPT_TIMEOUT, 100);
+            curl_setopt($curl, CURLOPT_HEADER, true);
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 50);
 
             if (array_key_exists($news->source, $alone_sources)) {
@@ -232,6 +234,7 @@ class Crawler
                 $content = curl_multi_getcontent($curl);
             }
             $info = curl_getinfo($curl);
+            list($header, $body) = explode("\r\n\r\n", $content, 2);
 
             if ($info['http_code'] != 200) {
                 if ($skip) {
@@ -242,7 +245,7 @@ class Crawler
                     if (!in_array($info['http_code'], array(404))) { // 404 不用 log
                         error_log("{$news->url} {$info['http_code']}");
                     }
-                    self::updateContent($news, $info['http_code']);
+                    self::updateContent($news, $info['http_code'], $header);
                     continue;
                 }
                 $news->update(array('error_count' => $news->error_count + 1));
@@ -251,7 +254,7 @@ class Crawler
             }
             $status_count[$news->source . '-' . intval($info['http_code'])] ++;
             try {
-                self::updateContent($news, $content);
+                self::updateContent($news, $body, $header);
             } catch (Exception $e) {
                 error_log("處理 {$news->url} 錯誤: " . $e->getMessage());
             }

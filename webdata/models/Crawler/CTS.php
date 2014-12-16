@@ -5,11 +5,11 @@ class Crawler_CTS implements Crawler_Common
     public static function crawlIndex()
     {
         $content = Crawler::getBody('http://news.cts.com.tw/real');
-        $content = Crawler::getBody('http://news.cts.com.tw/real/index2.html');
-        $content = Crawler::getBody('http://news.cts.com.tw/real/index3.html');
-        $content = Crawler::getBody('http://news.cts.com.tw/real/index4.html');
-        $content = Crawler::getBody('http://news.cts.com.tw/real/index5.html');
-        $content = Crawler::getBody('http://news.cts.com.tw/real/index6.html');
+        $content .= Crawler::getBody('http://news.cts.com.tw/real/index2.html');
+        $content .= Crawler::getBody('http://news.cts.com.tw/real/index3.html');
+        $content .= Crawler::getBody('http://news.cts.com.tw/real/index4.html');
+        $content .= Crawler::getBody('http://news.cts.com.tw/real/index5.html');
+        $content .= Crawler::getBody('http://news.cts.com.tw/real/index6.html');
         return $content;
     }
 
