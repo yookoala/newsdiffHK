@@ -35,3 +35,6 @@ news.tvb.com,'^/(local|world|finance|sports|weather)/([0-9A-Za-z]*)',http://news
 paper.wenweipo.com,'^([\S]*)',http://paper.wenweipo.com/{$1},paper.wenweipo.com/{$1}
 www.passiontimes.hk,'^/article/([\d\-]+)/(\d+)$',http://www.passiontimes.hk{$0},www.passiontimes.hk{$0}
 passiontimes.hk,'^/article/([\d\-]+)/(\d+)$',http://www.passiontimes.hk{$0},www.passiontimes.hk{$0}
+std.stheadline.com, '^/breakingnews/([\d\w]+\.asp)$',http://std.stheadline.com{$0},std.stheadline.com{$0}
+singtao.com, '^/breakingnews/([\d\w]+\.asp)$',http://std.stheadline.com{$0},std.stheadline.com{$0}
+www.singtao.com, '^/breakingnews/([\d\w]+\.asp)$',http://std.stheadline.com{$0},std.stheadline.com{$0}
