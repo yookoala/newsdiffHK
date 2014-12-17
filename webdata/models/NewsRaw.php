@@ -21,7 +21,8 @@ class NewsRaw extends Pix_Table
 
         $this->_columns['news_id'] = array('type' => 'int');
         $this->_columns['time'] = array('type' => 'int');
-        $this->_columns['raw'] = array('type' => 'text');
+        $this->_columns['header'] = array('type' => 'text');
+        $this->_columns['raw'] = array('type' => 'longtext');
     }
 
     public static function insertNew($data)
@@ -29,7 +30,13 @@ class NewsRaw extends Pix_Table
         $table_name = "news_raw_" . date('Ym', $data['time']);
         $table = NewsRaw::getTable();
         $db = NewsRaw::getDb();
-        $db->query("INSERT INTO {$table_name} SET `news_id` = {$data['news_id']}, `time` = {$data['time']}, `raw` = " . $db->quoteWithColumn($table, $data['raw'], 'raw'));
+        $db->query(sprintf("INSERT INTO %s (`news_id`, `time`, `header`, `raw`) VALUES (%d, %d, %s, %s)",
+            $table_name,
+            $data['news_id'],
+            $data['time'],
+            $db->quoteWithColumn($table, $data['header'], 'header'),
+            $db->quoteWithColumn($table, $data['raw'], 'raw')
+        ));
     }
 
     public static function getInfo($raw, $url)
