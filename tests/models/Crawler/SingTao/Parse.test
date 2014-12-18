@@ -11,7 +11,7 @@ class TestCase_Crawler_SingTao_Parse_20141217a163245 extends UnitTestCase
     function testParse()
     {
         $content = file_get_contents(__DIR__ . '/data/20141217a163245.html');
-        $result = Crawler_SingTao::parse($content);
+        $result = Crawler_SingTao::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/20141217a163245.json'));
 
         $this->assertEqual(
@@ -39,7 +39,7 @@ class TestCase_Crawler_SingTao_Parse_20141217b152123 extends UnitTestCase
     function testParse()
     {
         $content = file_get_contents(__DIR__ . '/data/20141217b152123.html');
-        $result = Crawler_SingTao::parse($content);
+        $result = Crawler_SingTao::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/20141217b152123.json'));
 
         $this->assertEqual(
@@ -68,7 +68,7 @@ class TestCase_Crawler_SingTao_Parse_20141217d185509 extends UnitTestCase
     function testParse()
     {
         $content = file_get_contents(__DIR__ . '/data/20141217d185509.html');
-        //$result = Crawler_SingTao::parse($content);
+        //$result = Crawler_SingTao::parse(Crawler::prepareContent($content));
         $result = NewsRaw->getInfo($content, 'http://std.stheadline.com/breakingnews/20141217d185509.asp');
         $reference = json_decode(file_get_contents(__DIR__ . '/data/20141217d185509.json'));
 

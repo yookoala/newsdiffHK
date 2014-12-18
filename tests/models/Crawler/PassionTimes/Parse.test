@@ -11,8 +11,8 @@ class TestCase_Crawler_PassionTimes_Parse_19750 extends UnitTestCase
 
     function testParse()
     {
-        $body = file_get_contents(__DIR__ . '/data/19750.html');
-        $result = Crawler_PassionTimes::parse($body);
+        $content = file_get_contents(__DIR__ . '/data/19750.html');
+        $result = Crawler_PassionTimes::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/19750.json'));
 
         $this->assertEqual(
@@ -39,8 +39,8 @@ class TestCase_Crawler_PassionTimes_Parse_4591 extends UnitTestCase
 
     function testParse()
     {
-        $body = file_get_contents(__DIR__ . '/data/4591.html');
-        $result = Crawler_PassionTimes::parse($body);
+        $content = file_get_contents(__DIR__ . '/data/4591.html');
+        $result = Crawler_PassionTimes::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/4591.json'));
 
         $this->assertEqual(
