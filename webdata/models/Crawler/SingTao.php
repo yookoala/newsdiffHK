@@ -35,7 +35,7 @@ class Crawler_SingTao implements Crawler_Common
         // remove all captions in an ugly way
         $body = preg_replace('/\<td class="caption"[ \w"\']*\>(.+?)\<\/td\>/', '', $body);
 
-        @$doc->loadHTML($body);
+        @$doc->loadHTML(mb_convert_encoding($body, 'HTML-ENTITIES', 'UTF-8'));
 
         $og_title = FALSE;
         foreach ($doc->getElementsByTagName('meta') as $meta) {
