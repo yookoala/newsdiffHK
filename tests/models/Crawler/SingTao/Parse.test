@@ -68,8 +68,7 @@ class TestCase_Crawler_SingTao_Parse_20141217d185509 extends UnitTestCase
     function testParse()
     {
         $content = file_get_contents(__DIR__ . '/data/20141217d185509.html');
-        //$result = Crawler_SingTao::parse(Crawler::prepareContent($content));
-        $result = NewsRaw->getInfo($content, 'http://std.stheadline.com/breakingnews/20141217d185509.asp');
+        $result = Crawler_SingTao::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/20141217d185509.json'));
 
         $this->assertEqual(
