@@ -55,3 +55,33 @@ class TestCase_Crawler_SingTao_Parse_20141217b152123 extends UnitTestCase
     }
 
 }
+
+
+class TestCase_Crawler_SingTao_Parse_20141217d185509 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_SingTao::parse (20141217d185509.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/20141217d185509.html');
+        //$result = Crawler_SingTao::parse($content);
+        $result = NewsRaw->getInfo($content, 'http://std.stheadline.com/breakingnews/20141217d185509.asp');
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/20141217d185509.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
