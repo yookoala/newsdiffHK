@@ -84,3 +84,32 @@ class TestCase_Crawler_SingTao_Parse_20141217d185509 extends UnitTestCase
     }
 
 }
+
+
+class TestCase_Crawler_SingTao_Parse_20141218h134447 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_SingTao::parse (20141218h134447.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/20141218h134447.html');
+        $result = Crawler_SingTao::parse(Crawler::prepareContent($content));
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/20141218h134447.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
