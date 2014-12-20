@@ -185,4 +185,12 @@ NewsSourcesCfg::setAll(array(
             'www.passiontimes.hk' => 'parse',
         ),
     ),
+    20 => array(
+        'name' => '星島日報',
+        'class' => 'Crawler_SingTao',
+        'parsers' => array(
+            'std.stheadline.com' => 'parse',
+        ),
+    ),
+
 ));

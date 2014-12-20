@@ -74,14 +74,20 @@ class Crawler
         return $content;
     }
 
-    public static function updateContent($news, $content, $header)
+    public static function prepareContent($content)
     {
-        $now = time();
-
         if (preg_match('/content="text\/html; charset=big5/', $content)) {
             //$content = iconv('big5', 'utf-8', $content);
             $content = mb_convert_encoding($content , "utf-8", "big5");
         }
+        return $content;
+    }
+
+    public static function updateContent($news, $content, $header)
+    {
+        $now = time();
+
+        $content = self::prepareContent($content);
 
         $last_info = $news->infos->order('`time` DESC')->first();
         $ret = NewsRaw::getInfo($content, $news->url);
