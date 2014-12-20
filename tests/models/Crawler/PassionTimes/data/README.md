@@ -9,3 +9,6 @@ They represents the normal data crawled from the site.
 
  - `19705.html`
    From: http://www.passiontimes.hk/article/11-22-2014/19750
+
+ - `3008.html`
+   From: http://www.passiontimes.hk/article/05-19-2013/3008
