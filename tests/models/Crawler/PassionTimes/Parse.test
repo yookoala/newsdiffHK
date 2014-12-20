@@ -1,6 +1,5 @@
 <?php
 
-
 class TestCase_Crawler_PassionTimes_Parse_19750 extends UnitTestCase
 {
 
@@ -42,6 +41,34 @@ class TestCase_Crawler_PassionTimes_Parse_4591 extends UnitTestCase
         $content = file_get_contents(__DIR__ . '/data/4591.html');
         $result = Crawler_PassionTimes::parse(Crawler::prepareContent($content));
         $reference = json_decode(file_get_contents(__DIR__ . '/data/4591.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
+
+class TestCase_Crawler_PassionTimes_Parse_3008 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_PassionTimes::parse (3008.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/3008.html');
+        $result = Crawler_PassionTimes::parse(Crawler::prepareContent($content));
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/3008.json'));
 
         $this->assertEqual(
           $result->title,

@@ -25,7 +25,8 @@ class Crawler_PassionTimes implements Crawler_Common
         $ret = new StdClass;
 
         $doc = new DOMDocument('1.0', 'UTF-8');
-        $body = preg_replace('/(\<br[ ]*\/\>|\<\/p\>|\<\/div\>)/', "$1\n", $body);
+        $body = preg_replace('/(\<span[^\>]*?\>|<\/span>)/', "\n", $body);
+        $body = preg_replace('/(\<br[^\>]*?\/\>|\<\/p\>|\<\/div\>)/', "$1\n", $body);
 
         @$doc->loadHTML($body);
 
@@ -45,7 +46,6 @@ class Crawler_PassionTimes implements Crawler_Common
           //$content .= $item->ownerDocument->saveXML($item); 
           $content .= $item->nodeValue; 
         }
-
         $ret->body = empty($content) ? FALSE : trim($content);
 
         // fix line break
