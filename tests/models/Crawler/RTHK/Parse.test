@@ -1,0 +1,57 @@
+<?php
+
+class TestCase_Crawler_RTHK_Parse_1064208 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_RTHK::parse (1064208.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/1064208.html');
+        $result = Crawler_RTHK::parse(Crawler::prepareContent($content));
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/1064208.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
+
+class TestCase_Crawler_RTHK_Parse_1064247 extends UnitTestCase
+{
+
+    function __construct()
+    {
+        $this->label = 'Crawler_RTHK::parse (1064247.html)';
+    }
+
+    function testParse()
+    {
+        $content = file_get_contents(__DIR__ . '/data/1064247.html');
+        $result = Crawler_RTHK::parse(Crawler::prepareContent($content));
+        $reference = json_decode(file_get_contents(__DIR__ . '/data/1064247.json'));
+
+        $this->assertEqual(
+          $result->title,
+          $reference->title,
+          'Parsed Page Title'
+        );
+        $this->assertEqual(
+          $result->body,
+          $reference->body,
+          'Parsed Page Body'
+        );
+    }
+
+}
